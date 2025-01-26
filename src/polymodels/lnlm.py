@@ -101,7 +101,8 @@ class LinearNonlinearMixedRegressor(BaseEstimator, RegressorMixin):
 
         Returns
         -------
-
+        np.ndarray
+            Predicted values
         """
 
         X_hermite = self._compute_hermite_features(X)
