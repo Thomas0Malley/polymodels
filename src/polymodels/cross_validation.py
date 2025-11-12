@@ -22,14 +22,21 @@ class QuantileStratifiedKFold(BaseEstimator):
         Random seed for reproducibility.
     """
 
-    def __init__(self, n_splits: int = 5, shuffle: bool = True, random_state: int = None):
+    def __init__(
+            self,
+            n_splits: int = 5,
+            shuffle: bool = True,
+            random_state: int = None
+    ):
         self.n_splits = n_splits
         self.shuffle = shuffle
         self.random_state = random_state
 
-    def split(self,
-              X: np.ndarray,
-              y: np.ndarray) -> Iterator[Tuple[np.ndarray, np.ndarray]]:
+    def split(
+            self,
+            X: np.ndarray,  # noqa
+            y: np.ndarray
+    ) -> Iterator[Tuple[np.ndarray, np.ndarray]]:
         """
         Generate indices to split data into training and validation sets.
 

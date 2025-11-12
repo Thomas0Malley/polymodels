@@ -39,12 +39,14 @@ class LinearNonlinearMixedRegressor(BaseEstimator, RegressorMixin):
         Random state for reproducibility.
     """
 
-    def __init__(self,
-                 mu: str | float = 'auto',
-                 n: int = 4,
-                 n_folds: int = 5,
-                 n_mu_points: int = 100,
-                 random_state: Optional[int] = None):
+    def __init__(
+            self,
+            mu: str | float = 'auto',
+            n: int = 4,
+            n_folds: int = 5,
+            n_mu_points: int = 100,
+            random_state: Optional[int] = None
+    ):
         self.mu = mu
         self.n = n
         self.n_folds = n_folds
@@ -57,9 +59,11 @@ class LinearNonlinearMixedRegressor(BaseEstimator, RegressorMixin):
         self._mu_value = None
         self.fold_results_ = None
 
-    def fit(self,
+    def fit(
+            self,
             X: np.ndarray,
-            y: np.ndarray) -> 'LinearNonlinearMixedRegressor':
+            y: np.ndarray
+    ) -> 'LinearNonlinearMixedRegressor':
         """
         Fit the Linear Non Linear Mixed Model
 
@@ -89,8 +93,10 @@ class LinearNonlinearMixedRegressor(BaseEstimator, RegressorMixin):
 
         return self
 
-    def predict(self,
-                X: np.ndarray) -> np.ndarray:
+    def predict(
+            self,
+            X: np.ndarray
+    ) -> np.ndarray:
         """
         Predict using the LNLM model
 
@@ -110,9 +116,11 @@ class LinearNonlinearMixedRegressor(BaseEstimator, RegressorMixin):
                 self._mu_value * self.nonlinear_model.predict(X_hermite) +
                 (1 - self._mu_value) * self.linear_model.predict(X))
 
-    def _estimate_mu(self,
-                     X: np.ndarray,
-                     y: np.ndarray) -> float:
+    def _estimate_mu(
+            self,
+            X: np.ndarray,
+            y: np.ndarray
+    ) -> float:
         """
         Estimate optimal mu using quantile k-fold cross-validation with weighted averaging.
 
@@ -164,8 +172,10 @@ class LinearNonlinearMixedRegressor(BaseEstimator, RegressorMixin):
 
         return mu_star
 
-    def _compute_hermite_features(self,
-                                  X: np.ndarray) -> np.ndarray:
+    def _compute_hermite_features(
+            self,
+            X: np.ndarray
+    ) -> np.ndarray:
         """
         Compute Hermite polynomial features
 
@@ -192,11 +202,13 @@ class LinearNonlinearMixedRegressor(BaseEstimator, RegressorMixin):
 
         return H
 
-    def _compute_rmse(self,
-                      mu: float,
-                      X: np.ndarray,
-                      y: np.ndarray,
-                      X_hermite: np.ndarray) -> float:
+    def _compute_rmse(
+            self,
+            mu: float,
+            X: np.ndarray,
+            y: np.ndarray,
+            X_hermite: np.ndarray
+    ) -> float:
         """
         Compute RMSE for a given mu value
 
@@ -221,10 +233,12 @@ class LinearNonlinearMixedRegressor(BaseEstimator, RegressorMixin):
                   (1 - mu) * self.linear_model.predict(X))
         return root_mean_squared_error(y, y_pred)
 
-    def _optimize_fold(self,
-                       X_val: np.ndarray,
-                       y_val: np.ndarray,
-                       X_hermite_val: np.ndarray) -> FoldOptimizationResult:
+    def _optimize_fold(
+            self,
+            X_val: np.ndarray,
+            y_val: np.ndarray,
+            X_hermite_val: np.ndarray
+    ) -> FoldOptimizationResult:
         """
         Optimize mu for a single fold and compute all necessary metrics.
 
@@ -261,15 +275,19 @@ class LinearNonlinearMixedRegressor(BaseEstimator, RegressorMixin):
             optimal_rmse=optimal_rmse
         )
 
-    def _fit_models(self,
-                    X: np.ndarray,
-                    y: np.ndarray,
-                    X_hermite: np.ndarray) -> None:
+    def _fit_models(
+            self,
+            X: np.ndarray,
+            y: np.ndarray,
+            X_hermite: np.ndarray
+    ) -> None:
         """Fit both linear and non-linear models."""
         self.nonlinear_model.fit(X_hermite, y)
         self.linear_model.fit(X, y)
 
-    def _estimate_y_mean(self,
-                         y: np.ndarray) -> None:
+    def _estimate_y_mean(
+            self,
+            y: np.ndarray
+    ) -> None:
         """Estimate and store the mean of y."""
         self.y_mean = np.mean(y)
