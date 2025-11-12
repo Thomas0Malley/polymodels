@@ -1,7 +1,7 @@
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import root_mean_squared_error
-from scipy.special import hermite
+from scipy.special import hermitenorm
 import numpy as np
 from typing import Tuple, List, Optional
 from dataclasses import dataclass
@@ -186,7 +186,7 @@ class LinearNonlinearMixedRegressor(BaseEstimator, RegressorMixin):
 
         for i in range(X.shape[1]):
             for j in range(self.n):
-                poly = hermite(j)
+                poly = hermitenorm(j)
                 start_idx = i * self.n + j
                 H[:, start_idx] = poly(X[:, i])
 
